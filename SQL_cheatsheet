@@ -1,0 +1,84 @@
+#  SQL Cheatsheet for Cybersecurity & CTFs
+
+A quick-reference guide to SQL commands and syntax, with a focus on common tasks for cybersecurity practitioners, CTF participants, and bug bounty hunters.
+
+---
+
+## Basic Concepts
+
+| Term        | Meaning                                |
+|-------------|----------------------------------------|
+| Database    | A collection of tables                 |
+| Table       | A collection of rows (records)         |
+| Row         | A single record                        |
+| Column      | A single field in a record             |
+| Query       | Request to retrieve or manipulate data |
+
+---
+
+##  SELECT Statements
+
+```sql
+SELECT * FROM users;
+SELECT username, password FROM users;
+SELECT DISTINCT country FROM employees;
+SELECT COUNT(*) FROM logs;
+
+## Filtering
+
+```
+SELECT * FROM users WHERE username = 'admin';
+SELECT * FROM logs WHERE ip = '192.168.0.1';
+SELECT * FROM users WHERE age > 18 AND city = 'Boston';
+SELECT * FROM users WHERE email LIKE '%@gmail.com';
+```
+
+## Joins
+-- Inner Join
+SELECT u.name, o.amount
+FROM users u
+JOIN orders o ON u.id = o.user_id;
+
+-- Left Join
+SELECT a.name, b.email
+FROM accounts a
+LEFT JOIN emails b ON a.id = b.account_id;
+
+## Payloads
+' OR '1'='1' -- 
+admin' -- 
+' UNION SELECT null, version() -- 
+' UNION SELECT username, password FROM users -- 
+
+## Functions
+SELECT version();       -- Get DB version
+SELECT database();      -- Get current DB
+SELECT user();          -- Get current user
+
+## Create and Insert
+CREATE TABLE users (
+  id INT PRIMARY KEY,
+  username VARCHAR(50),
+  password VARCHAR(50)
+);
+
+INSERT INTO users (id, username, password) VALUES (1, 'admin', 'pass123');
+
+## Security Relevant
+
+SHOW DATABASES;
+SHOW TABLES;
+DESCRIBE users;
+SELECT * FROM information_schema.tables;
+SELECT * FROM information_schema.columns WHERE table_name='users';
+
+## Deleting and Dropping
+DELETE FROM users WHERE id = 3;
+DROP TABLE logs;
+DROP DATABASE dev_db;
+
+
+
+
+
+
