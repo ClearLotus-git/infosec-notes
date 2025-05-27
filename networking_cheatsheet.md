@@ -1,6 +1,6 @@
 # 🧠 Networking Cheatsheet
 
-A quick-reference guide to essential networking concepts, protocols, and tools—especially useful for cybersecurity students and professionals.
+A quick-reference guide to essential networking concepts.
 
 ---
 
