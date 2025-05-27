@@ -1,0 +1,199 @@
+# SOC Analyst Cheatsheet – Useful Things to Remember
+
+A quick reference for essential skills and concepts every SOC analyst should remember while on the job.
+
+---
+
+##  Common Log Sources & What to Look For
+
+| Log Source     | What to Monitor                        |
+|----------------|----------------------------------------|
+| Windows Event  | Logon events (4624, 4625), process creation (4688) |
+| Linux Syslog   | SSH attempts, sudo usage               |
+| Firewall Logs  | Blocked/allowed traffic, port scans    |
+| DNS Logs       | Suspicious domains, exfil over DNS     |
+| Web Server     | Unusual URLs, SQLi attempts, large POSTs|
+
+---
+
+##  Splunk Search Tips (SIEM Basics)
+
+```splunk
+index=windows EventCode=4625
+
+SOC Analyst Command Line & tcpdump Cheatsheet
+============================================
+
+1. Network Monitoring Commands
+
+- tcpdump – Packet Capture
+  Capture all traffic on interface eth0:
+    sudo tcpdump -i eth0
+
+  Capture only TCP traffic on port 80 (HTTP):
+    sudo tcpdump -i eth0 tcp port 80
+
+  Capture and write to a file:
+    sudo tcpdump -i eth0 -w capture.pcap
+
+  Read from a capture file:
+    tcpdump -r capture.pcap
+
+  Capture only packets from a specific IP:
+    sudo tcpdump -i eth0 src 192.168.1.10
+
+- netstat – Network Connections & Ports
+  Show all active connections and listening ports:
+    netstat -tulnp
+
+  Show all TCP connections:
+    netstat -at
+
+  Show all UDP connections:
+    netstat -au
+
+- ss – Socket Statistics (Replacement for netstat)
+  Show listening ports:
+    ss -tuln
+
+  Show all TCP connections with process info:
+    ss -tp
+
+- lsof – List Open Files / Network Connections
+  Show open network connections:
+    sudo lsof -i -n -P
+
+  Show processes using a specific port (e.g., 443):
+    sudo lsof -i :443
+
+- ps – Process Status
+  List all processes:
+    ps aux
+
+  Search for a specific process (e.g., ssh):
+    ps aux | grep ssh
+
+- top / htop – Real-time Process Monitoring
+  Run top (built-in):
+    top
+
+  Run htop (if installed):
+    htop
+
+- grep – Search in Logs
+  Search for “error” in syslog:
+    grep "error" /var/log/syslog
+
+  Search for failed ssh logins:
+    grep "Failed password" /var/log/auth.log
+
+- journalctl – View Systemd Logs
+  Show all logs:
+    sudo journalctl
+
+  Show recent kernel messages:
+    sudo journalctl -k
+
+  Show logs for a specific service (e.g., ssh):
+    sudo journalctl -u ssh.service
+
+2. Quick tcpdump Filters to Remember
+
+Filter Example                   | Description
+-------------------------------|-----------------------------
+tcp port 443                   | HTTPS traffic
+udp port 53                   | DNS queries
+src 10.0.0.5                  | Traffic from source IP 10.0.0.5
+dst 192.168.1.100             | Traffic to destination IP 192.168.1.100
+icmp                          | Ping / ICMP traffic
+tcp[tcpflags] & tcp-syn != 0  | TCP SYN packets (connection attempts)
+
+3. Pro Tips for SOC Analysts
+
+- Use `tcpdump -c 100` to capture just 100 packets to keep file size manageable.
+- Combine tcpdump with Wireshark for deep packet analysis.
+- Use grep and journalctl for quick log filtering.
+- Use ss over netstat for better performance on modern Linux systems.
+- Always check processes behind suspicious connections with lsof or ps.
+
+Wireshark & Packet Analysis Cheatsheet
+======================================
+
+1. Basic Filters (Display Filters)
+
+- ip.addr == 192.168.1.5  
+  Show all packets to or from IP 192.168.1.5
+
+- ip.src == 10.0.0.1  
+  Show packets where source IP is 10.0.0.1
+
+- ip.dst == 8.8.8.8  
+  Show packets where destination IP is 8.8.8.8
+
+- tcp.port == 80  
+  Show all TCP traffic on port 80 (HTTP)
+
+- udp.port == 53  
+  Show all UDP DNS traffic
+
+- dns  
+  Show only DNS protocol packets
+
+- http  
+  Show only HTTP traffic
+
+- ssl or tls  
+  Show SSL/TLS encrypted traffic
+
+- tcp.flags.syn == 1 and tcp.flags.ack == 0  
+  Show TCP SYN packets (connection attempts)
+
+2. Common Wireshark Keyboard Shortcuts
+
+- Ctrl + E  
+  Start/Stop capture
+
+- Ctrl + F  
+  Find packets (search by string or hex)
+
+- Ctrl + Shift + I  
+  Open Capture Interfaces
+
+- Ctrl + H  
+  Show/Hide packet details pane
+
+- Ctrl + Shift + S  
+  Save capture file
+
+3. Important Packet Details to Check
+
+- Source and Destination IP and Ports  
+- Protocol (TCP, UDP, ICMP, DNS, HTTP, etc.)  
+- Flags (TCP SYN, ACK, FIN, RST)  
+- Packet length  
+- DNS Queries and Responses  
+- HTTP Request Methods (GET, POST)  
+- TLS Handshake and Certificates (look for Server Hello)  
+- Any suspicious payloads or anomalies
+
+4. Tips for Packet Analysis
+
+- Use color coding (Wireshark has built-in color rules for HTTP, DNS, TCP errors)  
+- Follow TCP streams: Right-click on a packet → “Follow” → “TCP Stream” to see full conversation  
+- Use “Statistics” → “Protocol Hierarchy” for protocol distribution overview  
+- Use “Statistics” → “Endpoints” to see talkers on the network  
+- Use “Analyze” → “Expert Info” to find warnings or anomalies  
+
+5. Export & Save
+
+- Export specific packets: File → Export Specified Packets  
+- Save capture for later: File → Save As → choose .pcapng format
+
+---
+
+Keep practicing with real captures to sharpen your skills!
+
+
+
+
+
