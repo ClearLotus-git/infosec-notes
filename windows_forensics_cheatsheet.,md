@@ -1,0 +1,107 @@
+# Windows Forensics Cheat Sheet (SOC Analyst Focus)
+
+This document outlines important forensic artifacts, commands, and tools for triaging and analyzing incidents on Windows systems in a SOC environment.
+
+---
+
+## Common Artifact Locations
+
+C:\Windows\Prefetch\ - Prefetch files
+HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache - Shimcache (AppCompatCache)
+C:\Windows\AppCompat\Programs\Amcache.hve - Amcache
+C:\Users<username>\NTUSER.DAT - User Hive
+C:\Windows\System32\config\SYSTEM - SYSTEM Hive
+C:\Windows\System32\config\SOFTWARE - SOFTWARE Hive
+C:\Users<username>\AppData\Roaming\Microsoft\Windows\Recent - Recent Files
+C:\Users<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup - Startup Folder
+C:\Windows\System32\Tasks\ - Scheduled Tasks
+
+
+---
+
+## Key Event Logs
+
+Security.evtx - Logons, privilege use, process creation
+System.evtx - Driver loads, shutdowns, reboots
+Application.evtx - Application errors
+Microsoft-Windows-PowerShell/Operational - PowerShell script execution
+Microsoft-Windows-Sysmon/Operational - Sysmon logs (if configured)
+
+
+---
+
+## Useful Commands
+
+### Account Activity
+net user <username>
+quser
+whoami /all
+
+
+### Process & Services
+tasklist /v
+wmic process list full
+sc query
+
+
+### Network Connections
+netstat -ano
+Get-NetTCPConnection | Select-Object -Property LocalAddress,RemoteAddress,State,OwningProcess
+
+
+### Auto-Start Locations
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+
+
+---
+
+## Logon and Execution Artifacts
+
+- Prefetch: Tracks app execution history  
+- Shimcache (AppCompatCache): Records execution from registry  
+- Amcache: Stores file metadata from first execution  
+- SRUM: Tracks network and application usage  
+- WMI: Can show persistence methods  
+- Scheduled Tasks: Common persistence method  
+
+---
+
+## Recommended Tools
+
+- **Sysinternals Suite** (`Autoruns`, `Procmon`)  
+- **Sysmon** – Enhanced system activity logging  
+- **Volatility** – Memory forensics  
+- **MFTECmd** – MFT parsing tool  
+- **KAPE** – Triage collection and timeline generation
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
