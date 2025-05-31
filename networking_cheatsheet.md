@@ -1,10 +1,10 @@
-# 🧠 Networking Cheatsheet
+#  Networking Cheatsheet
 
 A quick-reference guide to essential networking concepts.
 
 ---
 
-## 🌐 Network Models
+##  Network Models
 
 ### OSI Model (7 Layers)
 | Layer | Name             | Function                         | Example Protocols      |
@@ -19,7 +19,7 @@ A quick-reference guide to essential networking concepts.
 
 ---
 
-## 📡 Common Protocols & Ports
+##  Common Protocols & Ports
 
 | Port | Protocol | Description            |
 |------|----------|------------------------|
@@ -36,7 +36,7 @@ A quick-reference guide to essential networking concepts.
 
 ---
 
-## 🔀 TCP vs UDP
+##  TCP vs UDP
 
 | Feature             | TCP                         | UDP                        |
 |---------------------|-----------------------------|----------------------------|
@@ -47,7 +47,7 @@ A quick-reference guide to essential networking concepts.
 
 ---
 
-## 📶 Subnetting Quick Guide
+##  Subnetting Quick Guide
 
 - Class A: `1.0.0.0 – 126.0.0.0` /8  
 - Class B: `128.0.0.0 – 191.255.0.0` /16  
@@ -59,7 +59,7 @@ A quick-reference guide to essential networking concepts.
 
 ---
 
-## 🧪 Nmap Cheat Sheet
+##  Nmap Cheat Sheet
 
 ```bash
 nmap -sV -T4 -Pn 10.10.10.10     # Version scan
