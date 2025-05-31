@@ -37,17 +37,21 @@ net user <username>
 quser
 whoami /all
 
+---
 
 ### Process & Services
 tasklist /v
 wmic process list full
 sc query
 
+---
+
 
 ### Network Connections
 netstat -ano
 Get-NetTCPConnection | Select-Object -Property LocalAddress,RemoteAddress,State,OwningProcess
 
+---
 
 ### Auto-Start Locations
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
